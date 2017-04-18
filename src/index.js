@@ -127,7 +127,20 @@ class FBMessenger {
     }
     sendRequest(req, cb)
   }
-
+   setDomainWhitelist (domains, cb){
+    const jsonObject{
+      setting_type: "domain_whiteliting",
+      whitelisted_domains: domains,
+      domain_action_type: "add"
+    };
+    const req = {
+      url: "https://graph.facebook.com/v2.6/me/thread_settings?fields=whitelised_domains&access_token="+this.token,
+      method: 'POST',
+      qs: jsonObject,
+      json: true
+    };
+    sendRequest(req, cb);
+  }
   getProfile (id, cb) {
     const req = {
       method: 'GET',
@@ -195,7 +208,6 @@ class FBMessenger {
     sendRequest(req, cb)
   }
 }
-
 const sendRequest = (req, cb) => {
   request(req, (err, res, body) => {
     if (!cb) return
